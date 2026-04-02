@@ -97,7 +97,7 @@ require 'koneksi.php';
         </div>
     </a>
 
-    <a href="customer.php">
+    <a href="data_pelanggan.php">
         <div class="menu">
             <h1>Customer</h1>
             <div class="icon">👤</div>

@@ -1,14 +1,14 @@
 <?php
 require 'koneksi.php';
 
-$data = mysqli_query($koneksi, "SELECT * FROM sewatbl");
+$data = mysqli_query($koneksi, "SELECT * FROM pelanggantbl");
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Data Kendaraan</title>
+    <title>Customer Pelanggan</title>
 
     <style>
         body {
@@ -88,11 +88,11 @@ $data = mysqli_query($koneksi, "SELECT * FROM sewatbl");
 
 <div class="container">
 
-    <h2>TRANSAKSI SEWA</h2>
+    <h2>CUSTOMER PELANGGAN</h2>
 
     <div class="aksi-atas">
         <a href="index.php">← Kembali</a>
-        <a href="sewa_tambah.php" class="tambah">+ Tambah</a>
+        <a href="pelanggan_tambah.php" class="tambah">+ Tambah</a>
     </div>
 
     <br>
@@ -100,13 +100,11 @@ $data = mysqli_query($koneksi, "SELECT * FROM sewatbl");
     <table>
         <tr>
             <th>No</th>
-            <th>No Sewa</th>
-            <th>Tgl Sewa</th>
-            <th>Tgl Kembali</th>
-            <th>No Polisi</th>
             <th>No KTP</th>
-            <th>Biaya</th>
-            <th>Catatan</th>
+            <th>Nama Pelanggan</th>
+            <th>Alamat</th>
+            <th>Telepon</th>
+            <th>Foto</th>
             <th>Aksi</th>
         </tr>
 
@@ -116,17 +114,23 @@ $data = mysqli_query($koneksi, "SELECT * FROM sewatbl");
         ?>
         <tr>
             <td><?= $no++; ?></td>
-            <td><?= $row['no_sewa']; ?></td>
             <td><?= $row['no_ktp']; ?></td>
-            <td><?= $row['no_polisi']; ?></td>
-            <td><?= $row['tgl_sewa']; ?></td>
-            <td><?= $row['tgl_kembali']; ?></td>
-            <td><?= $row['biaya']; ?></td>
-            <td><?= $row['catatan']; ?></td>
+            <td><?= $row['nama_pelanggan']; ?></td>
+            <td><?= $row['alamat']; ?></td>
+            <td><?= $row['telepon']; ?></td>
+
+            <!-- FOTO -->
+            <td>
+                <?php if ($row['foto'] != "") { ?>
+                    <img src="upload/<?= $row['foto']; ?>" width="80">
+                <?php } else { ?>
+                    Tidak ada
+                <?php } ?>
+            </td>
 
             <td>
-                <a href="sewa_edit.php?id=<?= $row['id']; ?>" class="edit">Edit</a>
-                <a href="sewa_hapus.php?id=<?= $row['id']; ?>" class="hapus">Hapus</a>
+                <a href="pelanggan_edit.php?id=<?= $row['id']; ?>" class="edit">Edit</a>
+                <a href="pelanggan_hapus.php?id=<?= $row['id']; ?>" class="hapus">Hapus</a>
             </td>
         </tr>
         <?php } ?>

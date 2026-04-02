@@ -88,7 +88,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM kendaraantbl");
 
 <div class="container">
 
-    <h2>DATA KENDARAAN</h2>
+    <h2>MASTER KENDARAAN</h2>
 
     <div class="aksi-atas">
         <a href="index.php">← Kembali</a>

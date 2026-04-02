@@ -3,33 +3,40 @@ require 'koneksi.php';
 
 $id = $_GET['id'];
 
-$data = mysqli_query($koneksi, "SELECT * FROM sewatbl WHERE id='$id'");
+$data = mysqli_query($koneksi, "SELECT * FROM pelanggantbl WHERE id='$id'");
 $row = mysqli_fetch_assoc($data);
 
 if (isset($_POST['update'])) {
 
-    $tanggal = $_POST['tanggal'];
-    $no_sewa = $_POST['no_sewa'];
     $no_ktp = $_POST['no_ktp'];
-    $no_polisi = $_POST['no_polisi'];
-    $tgl_sewa = $_POST['tgl_sewa'];
-    $tgl_kembali = $_POST['tgl_kembali'];
-    $biaya = $_POST['biaya'];
-    $catatan = $_POST['catatan'];
+    $nama_pelanggan = $_POST['nama_pelanggan'];
+    $alamat = $_POST['alamat'];
+    $telepon = $_POST['telepon'];
 
-    mysqli_query($koneksi, "UPDATE sewatbl SET
-        tanggal='$tanggal',
-        no_sewa='$no_sewa',
+    if ($_FILES['foto']['name'] != "") {
+
+        if ($row['foto'] != "") {
+            unlink("upload/" . $row['foto']);
+        }
+
+        $foto = time() . '_' . $_FILES['foto']['name'];
+        $tmp = $_FILES['foto']['tmp_name'];
+
+        move_uploaded_file($tmp, "upload/" . $foto);
+    } else {
+        $foto = $row['foto'];
+    }
+
+    mysqli_query($koneksi, "UPDATE pelanggantbl SET
         no_ktp='$no_ktp',
-        no_polisi='$no_polisi',
-        tgl_sewa='$tgl_sewa',
-        tgl_kembali='$tgl_kembali',
-        biaya='$biaya',
-        catatan='$catatan'
+        nama_pelanggan='$nama_pelanggan',
+        alamat='$alamat',
+        telepon='$telepon',
+        foto='$foto'
         WHERE id='$id'
     ");
 
-    header("Location: data_sewa.php");
+    header("Location: data_pelanggan.php");
 }
 ?>
 
@@ -37,7 +44,7 @@ if (isset($_POST['update'])) {
 <html>
 
 <head>
-    <title>Edit Transaksi Sewa</title>
+    <title>Edit Kendaraan</title>
 
     <style>
         body {
@@ -91,20 +98,10 @@ if (isset($_POST['update'])) {
 
     <div class="container">
 
-        <h2>Edit Transaksi Sewa</h2>
+        <h2>Edit Customer Pelanggan</h2>
 
         <form method="POST" enctype="multipart/form-data">
             <table>
-
-                <tr>
-                    <td>Tanggal</td>
-                    <td><input type="text" name="tanggal" value="<?= $row['tanggal']; ?>"></td>
-                </tr>
-
-                <tr>
-                    <td>No Sewa</td>
-                    <td><input type="text" name="no_sewa" value="<?= $row['no_sewa']; ?>"></td>
-                </tr>
 
                 <tr>
                     <td>No KTP</td>
@@ -112,28 +109,32 @@ if (isset($_POST['update'])) {
                 </tr>
 
                 <tr>
-                    <td>No Polisi</td>
-                    <td><input type="text" name="no_polisi" value="<?= $row['no_polisi']; ?>"></td>
+                    <td>Nama Pelanggan</td>
+                    <td><input type="text" name="nama_pelanggan" value="<?= $row['nama_pelanggan']; ?>"></td>
                 </tr>
 
                 <tr>
-                    <td>Tgl Sewa</td>
-                    <td><input type="text" name="tgl_sewa" value="<?= $row['tgl_sewa']; ?>"></td>
+                    <td>Alamat</td>
+                    <td><input type="text" name="alamat" value="<?= $row['alamat']; ?>"></td>
                 </tr>
 
                 <tr>
-                    <td>Tgl Kembali</td>
-                    <td><input type="text" name="tgl_kembali" value="<?= $row['tgl_kembali']; ?>"></td>
+                    <td>Telepon</td>
+                    <td><input type="text" name="telepon" value="<?= $row['telepon']; ?>"></td>
                 </tr>
 
                 <tr>
-                    <td>Biaya / hari</td>
-                    <td><input type="number" name="biaya" value="<?= $row['biaya']; ?>"></td>
+                    <td>Foto Lama</td>
+                    <td>
+                        <?php if ($row['foto'] != "") { ?>
+                            <img src="upload/<?= $row['foto']; ?>" width="100">
+                        <?php } ?>
+                    </td>
                 </tr>
 
                 <tr>
-                    <td>Catatan</td>
-                    <td><input type="text" name="catatan" value="<?= $row['catatan']; ?>"></td>
+                    <td>Ganti Foto</td>
+                    <td><input type="file" name="foto"></td>
                 </tr>
 
                 <tr>

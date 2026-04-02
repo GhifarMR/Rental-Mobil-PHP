@@ -3,21 +3,27 @@ require 'koneksi.php';
 
 if (isset($_POST['simpan'])) {
 
-    $tanggal = $_POST['tanggal'];
-    $no_sewa = $_POST['no_sewa'];
     $no_ktp = $_POST['no_ktp'];
-    $no_polisi = $_POST['no_polisi'];
-    $tgl_sewa = $_POST['tgl_sewa'];
-    $tgl_kembali = $_POST['tgl_kembali'];
-    $biaya = $_POST['biaya'];
-    $catatan = $_POST['catatan'];
+    $nama_pelanggan = $_POST['nama_pelanggan'];
+    $alamat = $_POST['alamat'];
+    $telepon = $_POST['telepon'];
 
-    mysqli_query($koneksi, "INSERT INTO sewatbl 
-        (tanggal, no_sewa, no_ktp, no_polisi, tgl_sewa, tgl_kembali, biaya, catatan, status)
+    if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
+        $foto = $_FILES['foto']['name'];
+        $tmp = $_FILES['foto']['tmp_name'];
+
+        $folder = "upload/";
+        move_uploaded_file($tmp, $folder . $foto);
+    } else {
+        $foto = "";
+    }
+
+    mysqli_query($koneksi, "INSERT INTO pelanggantbl 
+        (no_ktp, nama_pelanggan, alamat, telepon, foto)
         VALUES 
-        ('$tanggal', '$no_sewa', '$no_ktp', '$no_polisi', '$tgl_sewa', '$tgl_kembali', '$biaya', '$catatan', '$status')");
+        ('$no_ktp', '$nama_pelanggan', '$alamat', '$telepon', '$foto')");
 
-    header("Location: data_sewa.php");
+    header("Location: data_pelanggan.php");
 }
 ?>
 
@@ -25,7 +31,7 @@ if (isset($_POST['simpan'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tambah Transaksi Sewa</title>
+    <title>Tambah Customer Pelanggan</title>
 
     <style>
         body {
@@ -80,49 +86,34 @@ if (isset($_POST['simpan'])) {
 
 <div class="container">
 
-    <h2>Tambah Transaksi Sewa</h2>
+    <h2>Tambah Customer Pelanggan</h2>
 
     <form method="POST" enctype="multipart/form-data">
         <table>
 
             <tr>
-                <td>Tanggal</td>
-                <td><input type="date" name="tanggal" required></td>
-            </tr>
-
-            <tr>
-                <td>No Sewa</td>
-                <td><input type="text" name="no_sewa" required></td>
-            </tr>
-
-            <tr>
                 <td>No KTP</td>
-                <td><input type="text" name="no_ktp"></td>
+                <td><input type="text" name="no_ktp" required></td>
             </tr>
 
             <tr>
-                <td>No Polisi</td>
-                <td><input type="text" name="no_polisi"></td>
+                <td>Nama Pelanggan</td>
+                <td><input type="text" name="nama_pelanggan" required></td>
             </tr>
 
             <tr>
-                <td>Tgl Sewa</td>
-                <td><input type="date" name="tgl_sewa"></td>
+                <td>Alamat</td>
+                <td><input type="text" name="alamat"></td>
             </tr>
 
             <tr>
-                <td>Tgl Kembali</td>
-                <td><input type="date" name="tgl_kembali"></td>
+                <td>Telepon</td>
+                <td><input type="text" name="telepon"></td>
             </tr>
 
             <tr>
-                <td>Biaya / hari</td>
-                <td><input type="number" name="biaya"></td>
-            </tr>
-
-            <tr>
-                <td>Catatan</td>
-                <td><input type="text" name="catatan"></td>
+                <td>Foto</td>
+                <td><input type="file" name="foto"></td>
             </tr>
 
             <tr>
