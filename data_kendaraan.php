@@ -17,7 +17,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM kendaraantbl");
 
         .header {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 5px;
         }
 
         .container {
