@@ -12,4 +12,4 @@ if(!$koneksi) {
     die("koneksi gagal");
 }
 
-
+//using pgsql
